@@ -1,0 +1,32 @@
+language: python
+python:
+  - "3.7"
+
+services:
+  - postgresql
+
+env:
+  global: 
+  - CC_TEST_REPORTER_ID=63d56d3a1c4c2414d061bf12a48fe5d9397088c4306516bd4430286d2750c58b
+
+install:
+  - pip install -q pipenv
+  - pip install coveralls  
+  - pipenv install
+
+before_script:
+  - psql -c 'create database test_db;' -U postgres
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+script:
+  - python manage.py makemigrations
+  - python manage.py migrate
+  - python manage.py test
+  
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+after_success:
+  - coveralls

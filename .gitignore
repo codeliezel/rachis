@@ -1,0 +1,11 @@
+# environment
+.env
+
+# html coverage report
+cover/
+.coverage
+
+# media files
+media/
+
+settings/__pycache__
