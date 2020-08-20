@@ -8,12 +8,12 @@ class JWTAuthentication(authentication.BaseAuthentication):
 
     def authenticate(self, request):
         token = authentication.get_authorization_header(request)
-
+     
         if not token:
             return None
 
         try:
-            payload = jwt.decode(token, rachis.settings.SECRET_KEY)
+            payload = jwt.decode(token, settings.SECRET_KEY)
         except:
             raise AuthenticationFailed('Invalid token.')
 

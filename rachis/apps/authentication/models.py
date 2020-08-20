@@ -59,16 +59,17 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_long_name(self):
         return self.full_names  
-
+  
     def token(self):
-        return self._generate_jwt_token()    
 
-    def _generate_jwt_token(self):
-        dt = datetime.now() + timedelta(days=60)
+        date = datetime.now() + timedelta(hours=24)
 
-        token = jwt.encode({
-            'id': self.pk,
-            'exp': int(dt.strftime('%S'))
-        }, settings.SECRET_KEY, algorithm='HS256')
+        payload = {
+            'email': self.email,
+            'exp': (date.strftime('%m/%d/%Y%H:%M:%S'))
+        }
 
-        return token.decode('utf-8')   
+        token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
+        print(token)
+
+        return token.decode()

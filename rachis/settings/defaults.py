@@ -67,12 +67,12 @@ ROOT_URLCONF = 'rachis.urls'
 REST_FRAMEWORK = {
     'NON_FIELD_ERRORS_KEY': 'error',
     
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rachis.apps.authentication.backends.JWTAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-    ),
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
 }
 
 AUTH_USER_MODEL = "authentication.User" 

@@ -3,12 +3,17 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Resource
 from .serializers import ResourceSerializer
+from rest_framework.permissions import (
+    AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
+)
 
 class ResourceView(APIView):
 
     """
     Create a single link resource
     """
+    permission_classes = (IsAuthenticated,)
+    queryset = Resource.objects.all()
     
     def post(self, request):
         serializer = ResourceSerializer(data=request.data)
